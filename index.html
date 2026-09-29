@@ -1,0 +1,446 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>game</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#120d22;--card:#241a3d;--fg:#f6f3ff;--mut:#a79fc2;--ok:#2ee8ac;--bad:#ff5d6c;--acc:#a61bff;--hot:#ffd23f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.4 system-ui,sans-serif;min-height:100vh;transition:background .6s;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:-50%;z-index:-1;background:radial-gradient(circle at 30% 30%,#a61bff33,transparent 40%),radial-gradient(circle at 70% 60%,#2ee8ac22,transparent 40%);animation:drift 18s linear infinite}
+.d{font-family:'Archivo Black',system-ui,sans-serif}
+.pad{padding:16px;max-width:520px;margin:auto;animation:in .45s cubic-bezier(.2,.9,.3,1.2)}
+input,button{font:inherit;color:inherit;background:var(--card);border:1px solid #4a3f6b;border-bottom:4px solid #0007;border-radius:12px;padding:12px;width:100%;transition:transform .12s,filter .2s,background .3s}
+button{cursor:pointer;font-weight:600}
+button:hover{filter:brightness(1.2)}button:active{transform:translateY(3px);border-bottom-width:1px}
+button:focus-visible,input:focus-visible{outline:3px solid #fff}
+button.pri{background:var(--acc);border-color:var(--acc)}
+a.btn{display:block;text-align:center;text-decoration:none;color:inherit;background:var(--card);border:1px solid #4a3f6b;border-radius:12px;padding:12px;font-weight:600}
+.strip{display:flex;justify-content:space-between;padding:10px 14px;font-weight:700;position:sticky;top:0;z-index:3;box-shadow:0 4px 0 #0005}
+.strip span{display:inline-block}
+.q{font-size:20px;padding:16px;background:var(--card);border-radius:14px;margin:10px 0;border-left:6px solid var(--acc);animation:in .35s cubic-bezier(.2,.9,.3,1.2)}
+.cap .q{font-size:26px}
+.opts{display:grid;gap:10px}
+.opts button{min-height:64px;text-align:left;animation:in .4s backwards}
+.opts button:nth-child(2){animation-delay:.06s}.opts button:nth-child(3){animation-delay:.12s}.opts button:nth-child(4){animation-delay:.18s}
+.cap .opts button{font-size:22px;min-height:84px}
+button.ok{background:#127a5c;border-color:var(--ok);animation:flash .5s}
+button.no{background:#8a2a2a;border-color:var(--bad);animation:shake .45s}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.chip.on{background:var(--acc)}
+.rw{display:flex;justify-content:space-between;padding:8px 10px;margin:4px 0;background:var(--card);border-radius:10px;animation:in .3s backwards}
+.cd{display:block;height:6px;border-radius:3px;background:var(--bad);margin-top:8px;transform-origin:left;animation:shrink linear forwards}
+.fl{position:fixed;left:50%;top:40%;font:12vw 'Archivo Black';color:var(--ok);z-index:8;pointer-events:none;animation:float 1s ease-out forwards}
+.warn{color:var(--hot);animation:pulse .5s ease-in-out infinite alternate}
+.bump{animation:bump .4s}
+#ml{margin:12px 0;text-align:center;font:min(6vw,28px)/1.2 'Archivo Black';color:var(--hot);animation:pulse .5s ease-in-out infinite alternate}
+#ml:empty{display:none}
+#ch{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;min-height:34px}
+.cp{padding:4px 12px;border-radius:20px;background:var(--card);font:14px 'Archivo Black'}
+.cp.t1{box-shadow:0 0 14px var(--ok)}.cp.t2{box-shadow:0 0 18px var(--hot);background:#4a3a10}.cp.t3{box-shadow:0 0 22px var(--acc);background:#3a1060}.cp.t4{animation:rainbow 1s linear infinite}
+.ch{font:2.4vw 'Archivo Black';color:var(--hot);min-height:3vw}
+@keyframes rainbow{to{filter:hue-rotate(360deg)}}
+#ld{position:fixed;inset:0;z-index:50;background:var(--bg);display:grid;place-content:center;gap:14px;text-align:center;padding:24px;overflow-y:auto;transition:opacity .4s}
+#ld.out{opacity:0}
+#ll{width:min(88vw,420px);margin:0 auto;text-align:left;display:grid;gap:6px}
+.lr{display:grid;grid-template-columns:22px 1fr auto;column-gap:10px;align-items:center;padding:8px 10px;background:#ffffff0f;border-radius:10px;font-size:15px}
+.lr span{color:var(--mut);font-size:13px;text-align:right}
+.lr em{grid-column:1/4;height:3px;background:#fff1;border-radius:2px;margin-top:6px;display:none;overflow:hidden}
+.lr[data-s=active] em{display:block}
+.lr u{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+.lr[data-s=active] u:not([style]){width:35%;animation:slide 1.1s ease-in-out infinite alternate}
+.ic{width:16px;height:16px;border-radius:50%;border:2px solid #fff4}
+.lr[data-s=active] .ic{border-color:var(--ok);border-top-color:transparent;animation:spin .8s linear infinite}
+.lr[data-s=done] .ic{background:var(--ok);border-color:var(--ok)}
+.lr[data-s=fail] .ic{background:var(--bad);border-color:var(--bad)}
+.lr[data-s=fail] span{color:var(--bad)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slide{to{margin-left:65%}}
+.pb{height:14px;width:min(70vw,360px);background:#fff2;border-radius:9px;overflow:hidden;margin:auto}
+.pb i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--ok));transition:width .4s}
+#mu{position:fixed;right:8px;bottom:8px;width:48px;height:48px;padding:0;z-index:30;border-radius:50%}
+#vg{position:fixed;inset:0;pointer-events:none;box-shadow:inset 0 0 18vw #ff2a4d;opacity:0;z-index:5;transition:opacity .4s}
+body.ot #vg{animation:siren 1s ease-in-out infinite}
+#bn{position:fixed;left:0;right:0;top:38%;z-index:9;pointer-events:none;text-align:center;font:13vw/1 'Archivo Black';text-shadow:0 1vw 0 #000a;opacity:0;white-space:nowrap}
+#bn.go{animation:sweep 2.2s ease-out}
+.cf{position:fixed;top:-4vh;width:10px;height:16px;z-index:20;animation:fall 2.6s ease-in forwards}
+#bg{position:fixed;inset:0;transition:background .6s;overflow:hidden}
+#t{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font:22vw/1 'Archivo Black';opacity:.3;color:#fff;transition:font-size .4s}
+#t.warn{color:var(--hot);opacity:.5}
+#gl{position:absolute;left:0;right:0;border-top:.6vh dotted #fff;z-index:2}
+#bars{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:space-around}
+.col{height:100%;display:flex;flex-direction:column;justify-content:flex-end}
+.st{display:flex;flex-direction:column;align-items:center}
+.n{font:7vw/1 'Archivo Black';color:#fff;margin-bottom:1vh;text-shadow:0 .4vh 0 #0006}
+.n.lead{animation:crown 1s ease-in-out infinite alternate}
+.bar{position:relative;width:100%;transition:height .8s cubic-bezier(.2,.9,.3,1.2);box-shadow:1vw 1vw 0 #0005;border-radius:1vw 1vw 0 0}
+.bar.lead{filter:drop-shadow(0 0 2vw #fffa)}
+.nm{position:absolute;bottom:1vh;left:50%;transform:translateX(-50%);font:2.2vw 'Archivo Black';color:#111;background:#fffc;padding:0 1vw;border-radius:1vw;white-space:nowrap}
+.wob .st{animation:w 1.6s ease-in-out infinite}
+.wob .col:nth-child(2) .st{animation-delay:-.4s}.wob .col:nth-child(3) .st{animation-delay:-.9s}.wob .col:nth-child(4) .st{animation-delay:-1.3s}
+.fast .st{animation-duration:.6s}
+.pop{animation:pop .5s backwards}
+@keyframes drift{to{transform:rotate(360deg)}}
+@keyframes in{from{opacity:0;transform:translateY(18px) scale(.97)}}
+@keyframes rp{from{opacity:0;transform:scale(.85)}}
+@keyframes w{50%{transform:translateY(-3vh)}}
+@keyframes pop{from{opacity:0;transform:scale(.4)}}
+@keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+@keyframes flash{40%{transform:scale(1.04);box-shadow:0 0 30px var(--ok)}}
+@keyframes bump{40%{transform:scale(1.25)}}
+@keyframes pulse{to{transform:scale(1.12)}}
+@keyframes float{to{transform:translate(-50%,-30vh);opacity:0}}
+@keyframes shrink{to{transform:scaleX(0)}}
+@keyframes siren{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes sweep{0%{transform:translateX(100%);opacity:1}25%,70%{transform:none;opacity:1}100%{transform:translateX(-100%);opacity:1}}
+@keyframes fall{to{transform:translate(var(--x),110vh) rotate(720deg)}}
+@keyframes crown{to{transform:translateY(-1.5vh) scale(1.12)}}
+@media(prefers-reduced-motion:reduce){*,::before{animation:none!important}}
+</style></head><body>
+<div id="vg"></div><div id="bn"></div>
+<div id="ld"><div class="pb"><i id="pf"></i></div><p id="lt">Starting…</p>
+<div id="ll"><div class="lr" data-s="active"><i class="ic"></i><b>Scripts</b><span>Downloading game code…</span><em><u></u></em></div></div>
+<button class="pri" id="st" hidden style="max-width:420px;margin:auto">Tap to start</button></div>
+<script>setTimeout(function(){var r=document.querySelector('#ll .lr');if(r&&r.dataset.s==='active')r.querySelector('span').textContent='Still waiting on the server…'},4000)</script>
+<button id="mu" hidden>🔊</button>
+<div id="app"></div>
+<script type="module" onerror="var q=document.querySelector('#ll .lr');q.dataset.s='fail';q.querySelector('span').textContent='Could not load. Check sfx.js and sfx-data.js are uploaded.'">
+import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+import {SFX as L,fetchWithProgress} from './sfx.js';
+const SB=createClient('https://swymzdiqibfdsnfbtuwu.supabase.co','sb_publishable_TUm_TQONhqUtWso-AJz-VA_D-gTOgDC');
+const T=[['Purple','#a61bff','▲'],['Red','#e03c3a','●'],['Mint','#2ee8ac','■'],['Lime','#d1e035','◆'],['Orange','#ff9a3a','★'],['Blue','#5aa8ff','✚'],['Pink','#ff7ac8','▼']];
+const $=s=>document.querySelector(s), app=$('#app'), view=location.hash.slice(1), UP=new URLSearchParams(location.search).get('c');
+let code=(UP||localStorage.code||'').toUpperCase();
+let G={},P=[],A=[],Q=[],me=JSON.parse(localStorage.me||'null');
+let cdEnd=0,cdN=0,otRound=-1,streak=0,sr=-1,localEnd=0,seq=-1,used=new Set(),cur=null,locked=false,qEnd=0,lastKey='',prevHide=false,on=0,ended=-1,pr=-1;
+const rem=()=>G.paused?G.dur:Math.max(0,Math.round((localEnd-Date.now())/1000));
+const fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+const setG=p=>SB.from('game').update(p).eq('code',code);
+const stat=t=>{const a=A.filter(x=>x.round===G.round&&x.team===t);return{att:a.length,ok:a.filter(x=>x.ok).length}};
+const tot=()=>A.filter(a=>a.round===G.round&&a.ok).length;
+const TN=()=>T.slice(0,G.teams||4);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const val=i=>{const ok=stat(i).ok;return G.event==='race'&&G.mode!=='captain'?+(ok/Math.max(1,P.filter(p=>p.team===i).length)).toFixed(1):ok};
+const rc=()=>String(100+Math.random()*900|0);
+
+/* ---------- audio ---------- */
+/* Loop points in seconds. loopEnd 0 = end of file. Fill these in from your timestamps. */
+const CUES={main:{file:'caroloftheblocks.m4a',start:0,loopStart:0,loopEnd:0},ot:{file:'kugelhageloveedrive.m4a',start:0,loopStart:0,loopEnd:0}};
+const AC=new(window.AudioContext||window.webkitAudioContext)(),MG=AC.createGain(),BUF={};
+let muted=localStorage.mute==='1',src=null,sg=null,mtrack='';
+MG.gain.value=muted?0:1;L.setMasterVolume(muted?0:1);MG.connect(AC.destination);
+function music(n){
+  n=n||'';if(n===mtrack)return;const prev=mtrack;mtrack=n;const t=AC.currentTime,fo=prev&&n==='ot'?1.5:.6;
+  if(sg){const g=sg.gain,o=src,v=g.value;g.cancelScheduledValues(t);g.setValueAtTime(v,t);g.linearRampToValueAtTime(0,t+fo);setTimeout(()=>{try{o.stop()}catch(e){}},fo*1000+100)}
+  src=sg=null;if(!n||!BUF[n])return;
+  const d=prev&&n==='ot'?fo:0,c=CUES[n],s=AC.createBufferSource();s.buffer=BUF[n];s.loop=true;s.loopStart=c.loopStart;s.loopEnd=c.loopEnd||BUF[n].duration;
+  sg=AC.createGain();sg.gain.setValueAtTime(0,t+d);sg.gain.linearRampToValueAtTime(.7,t+d+.6);s.connect(sg).connect(MG);s.start(t+d,c.start);src=s;
+}
+function tone(f,d=.15,ty='square',v=.12,t0=0,f2){
+  const t=AC.currentTime+t0,o=AC.createOscillator(),g=AC.createGain();o.type=ty;o.frequency.setValueAtTime(f,t);
+  if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);
+  o.connect(g).connect(MG);o.start(t);o.stop(t+d);
+}
+const SFX={
+  ok:()=>{tone(660,.1);tone(990,.2,'square',.12,.09)},
+  bad:()=>tone(200,.45,'sawtooth',.16,0,80),
+  tick:()=>tone(880,.05,'square',.07),
+  min:()=>[1,1.25,1.5].forEach((m,i)=>tone(523*m,.22,'triangle',.2,i*.18)),
+  ot:()=>{tone(400,.8,'sawtooth',.14,0,900);tone(900,.8,'sawtooth',.14,.8,400)},
+  end:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.3,'triangle',.2,i*.13)),
+  go:()=>tone(300,.4,'square',.14,0,1000)
+};
+const once=new Set(),fire=(k,f)=>{if(!once.has(k)){once.add(k);f()}};
+const bd=view==='board';
+function banner(t,c='#fff'){const b=$('#bn');b.textContent=t;b.style.color=c;b.classList.remove('go');void b.offsetWidth;b.classList.add('go')}
+function confetti(){for(let i=0;i<60;i++){const e=document.createElement('i');e.className='cf';e.style.cssText=`left:${Math.random()*100}vw;background:${T[i%7][1]};animation-delay:${Math.random()*.7}s;--x:${(Math.random()-.5)*30}vw`;document.body.append(e);setTimeout(()=>e.remove(),3600)}}
+
+/* ---------- game phase ---------- */
+const thr=()=>G.mode==='solo'?2:3;
+function scores(){return(G.mode==='solo'?standings().pl.map(x=>x.ok):TN().map((_,i)=>stat(i).ok)).sort((a,b)=>b-a)}
+const gap=()=>{const v=scores();return v.length>1?v[0]-v[1]:99};
+const cdLen=()=>Math.max(4,10-cdN),cdLeft=()=>cdEnd?Math.max(0,Math.ceil((cdEnd-Date.now())/1000)):0;
+function phase(){
+  if(G.round!==pr){pr=G.round;ended=-1;cdEnd=0;cdN=0}
+  if(!G.round||!G.event||G.event==='lobby')return'idle';
+  if(ended===G.round)return'end';
+  if(rem()>0||!G.dur)return'run';
+  const v=scores();
+  if(otRound!==G.round){
+    if(G.event==='race'&&v[0]>0&&gap()<=thr()){otRound=G.round;cdEnd=0;cdN=0}
+    else{ended=G.round;return'end'}
+  }
+  if(gap()>thr()){if(!cdEnd)cdEnd=Date.now()+cdLen()*1000;else if(Date.now()>=cdEnd){ended=G.round;return'end'}}
+  else if(cdEnd){cdEnd=0;cdN++}
+  return'ot';
+}
+const chain=t=>{const a=A.filter(x=>x.round===G.round&&x.team===t).sort((x,y)=>x.id-y.id);let n=0;for(let i=a.length-1;i>=0&&a[i].ok;i--)n++;return n};
+const lastCh={},B2B={4:'b2bcharge1',8:'b2bcharge2',21:'b2bcharge3',30:'b2bcharge4'};
+function chainFx(ph,r){
+  if(ph==='idle')return;
+  const mt=me&&P.find(p=>p.id===me.id)?.team,hid=bd&&G.event==='race'&&ph==='run'&&r<=15;
+  TN().forEach((_,i)=>{const c=chain(i),k=G.round+':'+i;
+    if(lastCh[k]===undefined){lastCh[k]=c;return}
+    if(c>lastCh[k]&&B2B[c]&&(bd?!hid:i===mt))L.play(B2B[c]);lastCh[k]=c});
+}
+function fx(r,ph){
+  const K=k=>G.round+':'+k;
+  document.body.classList.toggle('ot',ph==='ot');$('#vg').style.opacity=ph==='ot'?'':'0';
+  chainFx(ph,r);
+  if(ph==='run'&&r===60&&G.dur>60)fire(K('m'),()=>{L.play('windup3');bd&&banner('1 MINUTE LEFT','#ffd23f')});
+  if(bd&&ph==='run'&&r>0&&r<=10)fire(K('t'+r),SFX.tick);
+  if(ph==='ot')fire(K('ot'),()=>{bd&&SFX.ot();banner('OVERTIME!','#ff5d6c');navigator.vibrate?.(400)});
+  if(ph==='ot'&&cdEnd){bd&&fire(K('ct'+cdEnd+':'+cdLeft()),SFX.tick)}
+  if(ph==='end')fire(K('end'),()=>{L.play('finish');bd&&confetti()});
+  if(bd)music(G.paused?'':ph==='ot'?'ot':ph==='run'?'main':'');
+}
+
+async function load(){
+  const [g,p]=await Promise.all([SB.from('game').select().eq('code',code).maybeSingle(),SB.from('players').select().eq('code',code).order('created_at')]);
+  G=g.data||{};P=p.data||[];
+  if(G.seq!==seq){seq=G.seq;localEnd=Date.now()+(G.dur||0)*1000}
+  if(!G.round)A=[];
+  render();
+}
+async function connect(){
+  if(on)return load();on=1;
+  A=(await SB.from('answers').select().eq('code',code).limit(10000)).data||[];
+  await load();
+  const f='code=eq.'+code,ch=SB.channel('c'+code);
+  for(const t of['game','players'])ch.on('postgres_changes',{event:'*',schema:'public',table:t,filter:f},load);
+  ch.on('postgres_changes',{event:'INSERT',schema:'public',table:'answers',filter:f},e=>{A.push(e.new);live()}).subscribe();
+  setInterval(live,250);
+}
+const render=()=>(view==='teacher'?teacher:view==='board'?board:student)();
+const live=()=>{const r=rem();view==='teacher'?liveT():view==='board'?liveB(r):liveS(r)};
+
+/* ---------- student phone ---------- */
+function student(){
+  const m=me&&P.find(p=>p.id===me.id);
+  if(!m){
+    lastKey='';
+    app.innerHTML=`<div class="pad"><p><input id="c" placeholder="3-digit code" inputmode="numeric" maxlength="3" value="${esc(code)}"></p><p><input id="nm" placeholder="First name + last initial (Sam K)" maxlength="20"></p><button class="pri" id="go">Join</button></div>`;
+    $('#go').onclick=async()=>{
+      const c=$('#c').value.trim().toUpperCase(),n=$('#nm').value.trim();if(!c||!n)return;
+      const{data:g}=await SB.from('game').select('code').eq('code',c).maybeSingle();
+      if(!g)return alert('No game with that code');
+      const{data}=await SB.from('players').insert({code:c,name:n}).select().single();
+      me={id:data.id};localStorage.me=JSON.stringify(me);localStorage.code=code=c;connect();
+    };return;
+  }
+  const t=m.team==null?null:T[m.team],liveEv=['practice','race','boss'].includes(G.event),capt=G.mode==='captain';
+  const isCap=P.find(p=>p.team===m.team&&p.phone)?.id===m.id;
+  const key=[m.team,liveEv,capt,isCap,G.round].join();
+  if(key===lastKey)return;lastKey=key;
+  document.body.style.background=t?`color-mix(in srgb,${t[1]} 22%,#120d22)`:'';
+  if(!t){app.innerHTML=`<div class="pad"><h1 class="d">You're in, ${esc(m.name)}</h1><p>Waiting for the teacher to deal teams.</p></div>`;return}
+  if(!liveEv||(capt&&!isCap)){
+    app.innerHTML=`<div class="pad" style="text-align:center"><h1 class="d" style="font-size:14vw;color:${t[1]};animation:bump 1s">${t[2]} ${t[0]}</h1><p>${!liveEv?"Head to your zone and wait for the start.":"You're not the captain. Read along and help decide."}</p></div>`;return}
+  nextQ();
+}
+function nextQ(){
+  const seen=new Set([...A.filter(a=>G.mode==='solo'?a.player===me.id:a.team===P.find(p=>p.id===me.id).team).map(a=>a.qid),...used]);
+  const tier=q=>G.tier==='any'||(G.tier==='hard'?q.tier!=='recall':q.tier===G.tier);
+  const pool=Q.filter(q=>(G.batches||[]).includes(q.batch)&&tier(q)&&!seen.has(q.id));
+  cur=pool[Math.random()*pool.length|0];locked=false;
+  if(!cur){app.innerHTML=`<div class="pad"><p>No more questions for your team. Tell the teacher.</p></div>`;return}
+  const t=T[P.find(p=>p.id===me.id).team],ord=[0,1,2,3].sort(()=>Math.random()-.5);
+  qEnd=G.qtime?Date.now()+G.qtime*1000:0;
+  app.innerHTML=`<div class="${G.mode==='captain'?'cap':''}"><div class="strip" style="background:${t[1]};color:#111"><span>${t[2]} ${t[0]}</span><span id="sc"></span><span id="tm"></span></div><div class="pad"><div id="ch"></div><div class="q">${cur.q}</div><div class="opts">${ord.map((k,i)=>`<button data-k="${k}">${'ABCD'[i]}. ${cur.o[k]}</button>`).join('')}</div><div id="ml"></div><p id="fb"></p><div id="ovp"></div></div></div>`;
+  document.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>pick(+b.dataset.k));
+  liveS(rem());
+}
+function pick(k){
+  if(locked)return;locked=true;used.add(cur.id);if(sr!==G.round){sr=G.round;streak=0}
+  const ok=k===cur.ans,cap=G.mode==='captain',o=phase()==='ot',wait=ok?(o?300:1000):(o?5000:3000);
+  document.querySelectorAll('.opts button').forEach(b=>{const v=+b.dataset.k;b.disabled=true;if(v===cur.ans)b.classList.add('ok');else if(v===k)b.classList.add('no')});
+  SB.from('answers').insert({code,player:me.id,team:P.find(p=>p.id===me.id).team,round:G.round,qid:cur.id,ok});
+  if(ok){streak++;L.play(streak>20?'combo16p':'combo'+Math.min(streak,16));const f=document.createElement('div');f.className='fl';f.textContent='+1';document.body.append(f);setTimeout(()=>f.remove(),1000);$('#sc')?.classList.add('bump')}
+  else{streak=0;L.play('wound');navigator.vibrate?.(200)}
+  const w=cap&&!o?Math.max(4500,wait):wait;
+  $('#fb').innerHTML=(ok?"Correct. ":k<0?"Time's up. ":"Wrong. ")+(cap?cur.ex:'')+(ok?'':`<i class="cd" style="animation-duration:${w}ms"></i>`);
+  setTimeout(()=>{if(phase()!=='end')nextQ()},w);
+}
+function standings(){
+  const tm=TN().map((t,i)=>({i,t,v:val(i)})).sort((a,b)=>b.v-a.v);
+  const pl=P.filter(p=>p.phone!==false&&p.team!=null).map(p=>{
+    const a=A.filter(x=>x.round===G.round&&x.player===p.id),ok=a.filter(x=>x.ok).length;
+    return{p,ok,att:a.length,srt:a.length?ok/a.length:0}}).sort((a,b)=>b.ok-a.ok||b.srt-a.srt);
+  return{tm,pl};
+}
+function showRes(){
+  const{tm,pl}=standings(),k=pl.findIndex(x=>x.p.id===me.id),m=pl[k],mt=P.find(p=>p.id===me.id).team;
+  document.body.classList.remove('ot');$('#vg').style.opacity='0';
+  app.innerHTML=`<div class="pad"><h1 class="d">Time!</h1><p style="animation:rp .5s backwards;animation-delay:${tm.length*.9}s">You: <b>${m?m.ok:0}</b> correct of ${m?m.att:0} (${m&&m.att?Math.round(m.srt*100):0}%). Rank <b>${k+1}</b> of ${pl.length}.</p><h3>Teams</h3>${tm.map((x,j)=>`<p style="border-left:8px solid ${x.t[1]};padding-left:8px;animation:rp .5s backwards;animation-delay:${(tm.length-1-j)*.9}s;${x.i===mt?'font-weight:800':''}">${j+1}. ${x.t[2]} ${x.t[0]}: ${x.v}</p>`).join('')}</div>`;
+  if(tm[0].i===mt)setTimeout(confetti,tm.length*900);
+}
+function liveS(r){
+  const ph=phase();fx(r,ph);
+  if(ph==='end'&&$('#tm')){showRes();return}
+  if(!$('#tm'))return;
+  const tm=P.find(p=>p.id===me.id).team,hide=G.event==='race'&&ph==='run'&&r<=15;
+  const tmEl=$('#tm');tmEl.textContent=ph==='ot'?(cdEnd?cdLeft():'OVERTIME'):fmt(r);tmEl.className=ph==='ot'||(ph==='run'&&r<=60&&G.dur>60)?'warn':'';
+  const sc=$('#sc'),tx=G.event==='boss'?`${tot()}/${G.objective}`:hide?"?":`${stat(tm).ok} correct`;
+  if(sc.textContent!==tx){sc.textContent=tx;sc.classList.remove('bump');void sc.offsetWidth;sc.classList.add('bump')}
+  const ov=$('#ovp');
+  if(ov){
+    let h='';
+    if(ph==='ot'){
+      const{tm:tl,pl}=standings(),k=pl.findIndex(x=>x.p.id===me.id);
+      h=(G.mode==='solo'
+        ?`<div class="rw"><b>You are #${k+1}</b><span>${pl[k]?pl[k].ok:0}</span></div>`+pl.slice(0,3).map((x,j)=>`<div class="rw"><span>${j+1}. ${esc(x.p.name)}</span><span>${x.ok}</span></div>`).join('')
+        :[...tl].sort((a,b)=>stat(b.i).ok-stat(a.i).ok).map((x,j)=>`<div class="rw" style="border-left:8px solid ${x.t[1]};${x.i===tm?'font-weight:800':''}"><span>${j+1}. ${x.t[2]} ${x.t[0]}</span><span>${stat(x.i).ok}</span></div>`).join(''));
+    }
+    if(ov.dataset.h!==h){ov.dataset.h=h;ov.innerHTML=h}
+  }
+  const ml=$('#ml'),mh=ph==='run'&&r<=60&&r>0&&G.dur>60?'1 Minute Left!':'';
+  if(ml&&ml.dataset.h!==mh){ml.dataset.h=mh;ml.textContent=mh}
+  const chE=$('#ch'),hc=hide?0:chain(tm),ck=hc+'|'+streak;
+  if(chE&&chE.dataset.k!==ck){chE.dataset.k=ck;const tr=hc>=30?4:hc>=21?3:hc>=8?2:hc>=4?1:0;chE.innerHTML=(hc>=2?`<span class="cp t${tr} bump">🔗 Team chain x${hc}</span>`:'')+(streak>=2?`<span class="cp bump">🔥 Combo x${streak}</span>`:'')}
+  if(!locked&&qEnd&&Date.now()>qEnd)pick(-1);
+}
+
+/* ---------- projector board ---------- */
+function board(){
+  if(!code){app.innerHTML=`<p class="pad">Open this page with ?c=123#board</p>`;return}
+  if($('#bg')&&document.querySelectorAll('.col').length===TN().length)return;
+  app.innerHTML=`<div id="bg"><div id="t"></div><div id="gl"></div><div id="bars">${TN().map((t,i)=>`<div class="col" style="width:${84/TN().length}vw"><div class="st"><div class="ch" id="c${i}"></div><div class="n" id="n${i}"></div><div class="bar" id="b${i}" style="background:${t[1]}"><span class="nm">${t[2]} ${t[0]}</span></div></div></div>`).join('')}</div></div>`;
+  liveB(rem());
+}
+function liveB(r){
+  const t=$('#t');if(!t)return;
+  const ph=phase();fx(r,ph);
+  const lobby=ph==='idle',race=G.event==='race',hide=race&&ph==='run'&&r>0&&r<=15,rev=prevHide&&!hide;
+  const sc=TN().map((_,i)=>val(i)),mx=Math.max(...sc),lead=sc.indexOf(mx),goal=G.goal||10,scale=Math.max(goal*1.4,mx*1.1)||1;
+  t.style.fontSize=lobby?'11vw':ph==='ot'||ph==='end'?'12vw':'';
+  t.className=(ph==='run'&&r<=60&&G.dur>60)||(ph==='ot'&&cdEnd)?'warn':'';
+  const h=lobby?`${code}<br>${P.length} joined`:ph==='ot'?(cdEnd?`${cdLeft()}`:'OVERTIME')
+    :ph==='end'&&G.event!=='boss'&&mx>0?`${T[lead][2]} ${T[lead][0]}`
+    :G.event==='boss'?`${fmt(r)}<br><span style="font-size:8vw">${tot()} / ${G.objective}</span>`:fmt(r);
+  if(t.dataset.h!==h){t.dataset.h=h;t.innerHTML=h;if(ph!=='run'){t.classList.remove('pop');void t.offsetWidth;t.classList.add('pop')}}
+  $('#bg').style.background=ph==='ot'?'#3a0f1c':(hide||lobby||!mx)?'#241a3d':`color-mix(in srgb,${T[lead][1]} 30%,#100b1c)`;
+  $('#bg').classList.toggle('wob',hide);$('#bg').classList.toggle('fast',hide&&r<=5);
+  $('#gl').style.display=race?'':'none';$('#gl').style.bottom=(goal/scale*100)+'vh';
+  const rank=[...sc.keys()].sort((a,b)=>sc[a]-sc[b]);
+  TN().forEach((_,i)=>{
+    const b=$('#b'+i),n=$('#n'+i),txt=String(hide?'?':lobby?'':sc[i]),ld=mx>0&&sc[i]===mx&&!hide&&!lobby;
+    b.style.transitionDelay=rev?rank.indexOf(i)*.9+'s':'0s';
+    b.style.height=(hide?55:sc[i]/scale*100)+'vh';
+    b.classList.toggle('lead',ld);n.classList.toggle('lead',ld);
+    const cE=$('#c'+i),cc=hide?0:chain(i),ct=cc>=2?'🔗 x'+cc:'';if(cE.textContent!==ct){cE.textContent=ct;cE.classList.remove('bump');void cE.offsetWidth;cE.classList.add('bump')}
+    if(n.textContent!==txt){n.textContent=txt;n.classList.remove('pop');void n.offsetWidth;n.style.animationDelay=rev?rank.indexOf(i)*.9+'s':'0s';n.classList.add('pop')}
+  });
+  prevHide=hide;
+}
+
+/* ---------- teacher panel ---------- */
+async function deal(){
+  const sh=a=>a.sort(()=>Math.random()-.5);
+  const L=[...sh(P.filter(p=>!p.phone)),...sh(P.filter(p=>p.phone))];
+  await Promise.all(L.map((p,i)=>SB.from('players').update({team:i%(G.teams||4)}).eq('id',p.id)));
+}
+function teacher(){
+  if(document.activeElement?.tagName==='INPUT')return;
+  const n=(k,l)=>`<label>${l}<input type="number" data-k="${k}" value="${G[k]??0}"></label>`;
+  const evs=[['lobby','Lobby',0],['practice','Practice',120],['race','Race',120],['boss','Boss',120]];
+  const base=location.origin+location.pathname,sl=base+'?c='+code,bl=base+'?c='+code+'#board';
+  app.innerHTML=`<div class="pad"><h2 class="d">Code ${code}</h2><p id="info"></p>
+  <div class="g"><a class="btn" href="${bl}" target="_blank">Open board</a><button id="cp">Copy student link</button></div>
+  <div class="g"><button id="deal">Deal teams</button><button id="nop">+ phoneless kid</button></div>
+  <h3>Start</h3><div class="g">${evs.map(e=>`<button class="ev" data-e="${e[0]}" data-d="${e[2]}">${e[1]}${e[2]?' '+fmt(e[2]):''}</button>`).join('')}</div>
+  <div class="g"><button id="ps">${G.paused?'Resume':'Pause'}</button></div>
+  <h3>Presets</h3><div class="g"><button class="pre" data-p="a">Everyone's phone</button><button class="pre" data-p="c">Captain</button></div>
+  <div class="g">${n('qtime','Question timer s')}${n('objective','Boss objective')}${n('goal','Race goal per player')}${n('teams','Number of teams')}</div>
+  <div class="g"><button id="mode">Mode: ${G.mode}</button><button id="tier">Tier: ${G.tier}</button></div>
+  <h3>Batches</h3><div class="g" style="grid-template-columns:repeat(5,1fr)">${[1,2,3,4,5].map(b=>`<button class="chip ${(G.batches||[]).includes(b)?'on':''}" data-b="${b}">${b}</button>`).join('')}</div>
+  <h3>Results</h3><div id="rs"></div>
+  <h3>Build race <span id="bt"></span></h3><div class="g"><button id="bs" class="pri">Start build timer</button><button id="bx">Reset</button></div><div id="bd"></div>
+  <button id="wipe" style="margin-top:16px;border-color:#ff6b6b">Wipe class</button></div>`;
+  $('#cp').onclick=()=>{navigator.clipboard?.writeText(sl);$('#cp').textContent='Copied'};
+  $('#deal').onclick=deal;
+  $('#bs').onclick=()=>{B={s:Date.now(),d:{},p:{}};saveB();renderBuild()};
+  $('#bx').onclick=()=>{B={s:0,d:{},p:{}};saveB();renderBuild()};
+  $('#bd').onclick=bclick;renderBuild();
+  $('#nop').onclick=()=>SB.from('players').insert({code,name:'(no phone)',phone:false});
+  document.querySelectorAll('.ev').forEach(b=>b.onclick=()=>setG({event:b.dataset.e,round:(G.round||0)+1,dur:+b.dataset.d,seq:(G.seq||0)+1,paused:false}));
+  $('#ps').onclick=()=>G.paused?setG({paused:false,seq:G.seq+1}):setG({paused:true,dur:rem(),seq:G.seq+1});
+  document.querySelectorAll('.pre').forEach(b=>b.onclick=()=>setG(b.dataset.p==='a'
+    ?{mode:'all',qtime:0,tier:'any',objective:5*P.filter(p=>p.phone).length}
+    :{mode:'captain',qtime:45,tier:'hard',objective:40}));
+  document.querySelectorAll('input[data-k]').forEach(i=>i.onchange=()=>setG({[i.dataset.k]:+i.value}));
+  $('#mode').onclick=()=>setG({mode:{all:'captain',captain:'solo',solo:'all'}[G.mode]||'all'});
+  $('#tier').onclick=()=>setG({tier:{any:'recall',recall:'hard',hard:'any'}[G.tier]||'any'});
+  document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+    const x=+b.dataset.b,cur=G.batches||[];setG({batches:cur.includes(x)?cur.filter(y=>y!==x):[...cur,x].sort()})});
+  $('#wipe').onclick=async()=>{
+    if(!confirm('Delete all players and answers for '+code+'?'))return;
+    await SB.from('players').delete().eq('code',code);await SB.from('answers').delete().eq('code',code);
+    await setG({event:'lobby',round:0,dur:0,seq:(G.seq||0)+1,paused:false});
+  };
+}
+let B=JSON.parse(localStorage.build||'{"s":0,"d":{},"p":{}}');
+const saveB=()=>localStorage.build=JSON.stringify(B),bel=()=>B.s?Math.floor((Date.now()-B.s)/1000):0;
+function bclick(e){
+  const b=e.target.closest('button');if(!b||!B.s)return;const i=+b.dataset.i,a=b.dataset.a;
+  if(a==='d')B.d[i]=bel();else if(a==='u')delete B.d[i];
+  else if(a==='+')B.p[i]=(B.p[i]||0)+1;else if(a==='-')B.p[i]=Math.max(0,(B.p[i]||0)-1);
+  saveB();renderBuild();
+}
+function renderBuild(){
+  const el=$('#bd');if(!el)return;
+  const rows=TN().map((t,i)=>{const d=B.d[i],p=B.p[i]||0;return{i,t,d,p,tot:d==null?null:d+p*30}});
+  const rk=rows.filter(x=>x.tot!=null).sort((a,b)=>a.tot-b.tot).map(x=>x.i);
+  el.innerHTML=rows.map(x=>`<div style="margin:6px 0;padding:8px;border-radius:10px;background:var(--card);border-left:8px solid ${x.t[1]}"><b>${x.t[2]} ${x.t[0]}</b> ${x.tot==null?`<button data-a="d" data-i="${x.i}" class="pri">Done</button>`:`<p>${fmt(x.d)} + ${x.p} x 30s = <b>${fmt(x.tot)}</b> (rank ${rk.indexOf(x.i)+1}) <button data-a="u" data-i="${x.i}">Undo</button></p>`}<div class="g"><button data-a="+" data-i="${x.i}">+30s messy</button><button data-a="-" data-i="${x.i}">-30s</button></div></div>`).join('');
+}
+function resHTML(){
+  const{tm,pl}=standings();
+  return '<b>Teams</b>'+tm.map((x,k)=>`<p>${k+1}. ${x.t[2]} ${x.t[0]}: ${x.v}</p>`).join('')
+   +'<b>Top players</b>'+pl.slice(0,5).map((x,k)=>`<p>${k+1}. ${esc(x.p.name)}: ${x.ok} correct, ${Math.round(x.srt*100)}% (${T[x.p.team][0]})</p>`).join('');
+}
+function liveT(){const rs=$('#rs'),sig=A.length+'|'+G.round+'|'+P.length;if(rs&&rs.dataset.s!==sig){rs.dataset.s=sig;rs.innerHTML=resHTML()}const b=$('#bt');if(b)b.textContent=B.s?fmt(bel()):'';const i=$('#info'),ph=phase();if(i)i.textContent=`${P.length} joined, ${G.event} ${ph==='ot'?'OVERTIME gap '+gap():fmt(rem())}, ${tot()} correct (goal ${G.objective})`}
+
+/* ---------- start ---------- */
+const LR={},mb=n=>(n/1048576).toFixed(1)+' MB';
+function row(k,label){const d=document.createElement('div');d.className='lr';d.dataset.s='wait';d.innerHTML=`<i class="ic"></i><b>${label}</b><span>Waiting</span><em><u></u></em>`;$('#ll').append(d);LR[k]={d,f:0,l:label}}
+function ls(k,s,t,f){
+  const o=LR[k];if(!o)return;o.d.dataset.s=s;o.d.querySelector('span').textContent=t||'';
+  if(s==='done'||s==='fail')o.f=1;else if(f!=null)o.f=f;
+  if(f!=null||s==='done')o.d.querySelector('u').style.width=(s==='done'?1:f)*100+'%';
+  if(s==='active')$('#lt').textContent=o.l+': '+t;
+  $('#pf').style.width=Object.values(LR).reduce((a,x)=>a+x.f,0)/Object.keys(LR).length*100+'%';
+}
+const prog=k=>(st,a,b)=>st==='wait'?ls(k,'active','Waiting for server…'):st==='get'?ls(k,'active','Downloading '+mb(a)+(b?' of '+mb(b):''),b?a/b*.8:.4):ls(k,'active','Decoding on this device…',.9);
+(async()=>{
+  const teach=view==='teacher';
+  LR.js={d:$('#ll .lr'),f:0,l:'Scripts'};ls('js','done','Loaded');
+  row('font','Fonts');row('q','Questions');
+  if(!teach){row('scommon','Sound effects 1');row('ssecondary','Sound effects 2')}
+  if(bd){row('mmain','Main theme');row('mot','Overtime theme')}
+  row('go','Game connection');
+  const jobs=[];
+  jobs.push((async()=>{ls('font','active','Loading typeface…');await document.fonts.load('20px "Archivo Black"').catch(()=>{});ls('font','done','Ready')})());
+  jobs.push((async()=>{ls('q','active','Waiting for server…');try{
+    const rs=await fetch('questions.txt');if(!rs.ok)throw 0;const tx=await rs.text();ls('q','active','Reading questions…',.7);
+    Q=tx.trim().split('\n').filter(l=>l&&!l.startsWith('id|')).map(l=>{
+      const[id,b,t,q,a,c,d,e,k,x]=l.split('|');return{id,batch:+b,tier:t,q,o:[a,c,d,e],ans:'ABCD'.indexOf(k),ex:x}});
+    ls('q','done',Q.length+' questions')}catch(e){ls('q','fail','questions.txt not found')}})());
+  if(!teach)for(const n of['common','secondary'])jobs.push((async()=>{const k='s'+n;try{await L.preload(n,prog(k));ls(k,'done','Ready')}catch(e){ls(k,'fail','Could not download')}})());
+  if(bd)for(const n of Object.keys(CUES))jobs.push((async()=>{const k='m'+n;try{const b=await fetchWithProgress(CUES[n].file,prog(k));prog(k)('dec');BUF[n]=await AC.decodeAudioData(b);ls(k,'done','Ready')}catch(e){ls(k,'fail','Missing '+CUES[n].file)}})());
+  await Promise.all(jobs);
+  if(!teach){
+    $('#lt').textContent='Ready. Tap to start.';
+    await new Promise(r=>{const b=$('#st');b.hidden=false;b.onclick=()=>{b.hidden=true;r()}});
+    AC.resume();L.unlock();SFX.tick();
+    const mu=$('#mu');mu.hidden=false;mu.textContent=muted?'🔇':'🔊';
+    mu.onclick=()=>{muted=!muted;localStorage.mute=muted?'1':'0';MG.gain.value=muted?0:1;L.setMasterVolume(muted?0:1);mu.textContent=muted?'🔇':'🔊'};
+  }
+  ls('go','active','Connecting…');
+  try{
+    if(teach){code=UP||localStorage.tc||rc();localStorage.tc=localStorage.code=code;await SB.from('game').upsert({code},{ignoreDuplicates:true})}
+    if(bd)code=code||(prompt('3-digit code')||'');
+    if(code)localStorage.code=code;
+    render();
+    if(code&&(view||me)){await connect();ls('go','done','Connected')}else ls('go','done','Ready to join');
+  }catch(e){ls('go','fail','Could not reach the game server');return}
+  $('#ld').classList.add('out');setTimeout(()=>$('#ld').remove(),400);
+})();
+</script></body></html>

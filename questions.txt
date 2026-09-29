@@ -1,0 +1,116 @@
+id|batch|tier|question|A|B|C|D|answer|explanation
+q101|1|recall|What is an electrical circuit?|A closed path that lets electricity flow|A wire that stores electricity for later|A switch that only turns the lights on|A battery with nothing connected to it|A|A circuit is a closed loop that electricity can flow around.
+q102|1|recall|For electricity to flow, everything must be connected in a...|Straight line ending at the bulb|Big ring called a circuit|Pile of wires on the table|Loop with a gap in the middle|B|Everything must form a complete ring, which is called a circuit.
+q103|1|recall|Which part is the power source in a simple circuit?|Wire|Switch|Battery|Bulb|C|The battery supplies the energy that pushes charge round the loop.
+q104|1|recall|What do the wires (conductors) do in a circuit?|Make the bright light we can see|Keep the battery from ever running out|Link the parts so electricity travels|Open or close the path when pressed|C|Conductors carry electricity between the components.
+q105|1|recall|What is the load in a circuit?|The part that pushes the charge|The part that joins the parts|The part that opens the path|The part that uses the energy|D|The load, such as a bulb, uses electrical energy.
+q106|1|recall|Which of these is a load?|Battery|Light bulb|Copper wire|Switch|B|A light bulb uses electrical energy, so it is the load.
+q107|1|recall|What does a switch do?|Makes new electricity for the bulb|Uses up the current in the loop|Measures the voltage of the wires|Opens or closes the circuit|D|A switch controls the flow by opening or closing the path.
+q108|1|recall|In a circuit, the battery is the...|Load|Voltage source|Conductor|Switch|B|The battery is the voltage source of the circuit.
+q109|1|recall|Which list shows the three basic parts of a simple circuit?|Switch, ammeter, voltmeter, and fuse|Voltage source, connecting wire, load|Bulb, resistor, diode, and inductor|Fuse, motor, LED, and galvanometer|B|The basics are a voltage source, connecting wires, and a load.
+q110|1|recall|Copper wires are used in circuits because copper is a good...|Insulator|Conductor|Load|Switch|B|A conductor lets electricity pass through easily.
+q111|1|recall|A bulb lights up only when the circuit is...|Open|Empty|Closed|Reversed|C|Only a closed circuit lets electricity flow to the bulb.
+q112|1|recall|Which part gives the charges their push around the loop?|Bulb|Wire|Switch|Battery|D|The voltage source pushes the charges around the circuit.
+q113|1|recall|What stops electricity from flowing around a loop?|A brighter bulb|A gap in the path|A longer wire|A newer battery|B|A gap breaks the loop, so charge cannot circulate.
+q114|1|application|A student joins a battery to a bulb with only ONE wire. The bulb stays dark. Why?|The path is not a complete loop|The battery has too much energy|The bulb needs two switches|One wire always blocks the current|A|Without a return path there is no closed loop, so nothing flows.
+q115|1|application|Both ends of a bulb touch the same battery terminal. The bulb stays dark. Why?|The battery is too weak to push charge|There is no push across the bulb|The wires are too short to reach it|Bulbs need a switch to work at all|B|One end needs + and the other needs -, so there is a push across the bulb.
+q116|1|application|A circuit has a battery, wires, a switch, and a bulb. Which part is the load?|The switch|The wires|The bulb|The battery|C|The bulb uses the electrical energy, so it is the load.
+q117|1|application|A bulb is dark because a wire is cut. What is the best fix?|Swap the bulb for a bigger one|Close the gap to complete the loop|Add a second battery beside it|Move the switch closer to the bulb|B|Repairing the gap restores the closed loop.
+q118|1|application|How does a switch differ from a bulb in a circuit?|The switch controls the path; the bulb uses energy|The switch uses energy; the bulb controls the path|The switch makes energy and the bulb stores it|They do exactly the same job in the circuit|A|The switch controls the path while the load uses energy.
+q119|1|application|Which item is NOT needed to light a bulb with a battery?|Connecting wires|A voltmeter|The battery|The bulb|B|A voltmeter only measures, so the circuit works without it.
+q120|1|application|Ben's bulb is dark, though it is joined to a battery by two wires. What should he check first?|Whether the room is bright enough|Whether the bulb is the right color|Whether the wires are long enough|If there is a gap or a loose wire|D|A gap or loose connection is the most common reason for a dark bulb.
+q121|1|reasoning|Why must a circuit be a complete loop, not just a wire from the battery to the bulb?|The bulb stores charge and must release it|One wire would carry the charge too fast|Charge needs a way back to the battery|The battery pushes harder with more wire|C|Charge circulates, so it needs a return path to the source.
+q122|1|reasoning|After charges pass through a bulb, what happens to them?|They keep moving with less energy|They stop and stay inside the bulb|They are used up and vanish for good|They jump straight back to the battery|A|The charges keep circulating; they give up energy in the load.
+q201|2|recall|A circle with an X inside is the symbol for a...|Voltmeter|Motor|Bulb|Ammeter|C|A circle with a cross represents a bulb.
+q202|2|recall|A circle with the letter V inside is the symbol for a...|Voltmeter|Ammeter|Bulb|Motor|A|V stands for voltmeter.
+q203|2|recall|A circle with the letter A inside is the symbol for an...|Motor|Bulb|Voltmeter|Ammeter|D|A stands for ammeter.
+q204|2|recall|A circle with the letter M inside is the symbol for a...|Motor|Ammeter|Bulb|Cell|A|M stands for motor.
+q205|2|recall|In a cell symbol, the longer line is the...|Negative terminal|Positive (+) terminal|Switch|Wire|B|The long line is positive and the short line is negative.
+q206|2|recall|In a cell symbol, the shorter line is the...|Positive terminal|Voltage source|Bulb holder|Negative terminal|D|The short line is the negative terminal.
+q207|2|recall|A battery symbol is drawn as...|A circle with a plus sign in it|A single long line with a dot|Two or more cells in a row|A zigzag line between two dots|C|A battery is made of two or more cells.
+q208|2|recall|A switch drawn with a gap and a raised lever is...|Closed|Charged|Open|Reversed|C|The raised lever leaves a gap, so the switch is open.
+q209|2|recall|In a circuit diagram, wires are drawn as...|Curly springs|Dotted circles|Zigzag lines|Straight lines|D|Wires are shown as straight lines.
+q210|2|recall|What do circuit diagrams use to stand for real components?|Symbols|Photographs|Sounds|Only colors|A|Symbols represent the actual components.
+q211|2|recall|The symbols in a circuit diagram are...|Three-dimensional|Two-dimensional|Real wires|Moving pictures|B|Symbols are flat, two-dimensional drawings.
+q212|2|recall|A circuit is shown in a diagram as a...|Straight line|Zigzag path|Closed loop|Single dot|C|Circuits are drawn as closed loops.
+q213|2|recall|A rectangle with a line through it is the symbol for a...|Resistor|Fuse|Motor|Inductor|B|A fuse is drawn as a rectangle with a line through it.
+q214|2|recall|A plain rectangle in a circuit diagram stands for a...|Fuse|Resistor|Diode|Motor|B|A resistor is drawn as a plain rectangle.
+q215|2|recall|A looped, coil-shaped symbol stands for an...|Inductor|LED|Ammeter|Cell|A|A coil symbol represents an inductor.
+q216|2|recall|The symbol for an LED is a diode with...|A zigzag line across it|Small arrows pointing away|A capital letter M inside|A cross drawn through it|B|The arrows show that the LED gives off light.
+q217|2|application|You draw a circuit with a battery, a switch, and a bulb. How many symbols is that?|2|3|4|5|B|One symbol for each part: battery, switch, and bulb.
+q218|2|application|A diagram shows a circle with V connected across a bulb. What does it measure?|The voltage across the bulb|The current in the wire|The brightness of the bulb|Whether the switch is open|A|A voltmeter across a component measures the voltage across it.
+q219|2|application|Why use circuit diagrams instead of photos of real circuits?|They make the bulbs glow brighter overall|They clearly show parts and connections|They use less electricity than photos|Photos are not allowed in science|B|Diagrams clearly show which components make up the circuit and how they connect.
+q220|2|application|A diagram is drawn with a gap between two wire lines. The circuit it shows is...|Closed|Parallel|Open|Series|C|A gap means the loop is not complete, so the circuit is open.
+q221|2|application|A student draws three cell symbols in a row. What did they draw?|A bulb|A battery|A resistor|A switch|B|Cells in a row form a battery.
+q222|2|application|A circle with A sits in the loop next to a bulb. What does it tell you?|Current in the loop is being measured|The bulb is really a motor|The switch is closed|Voltage across the battery is shown|A|An ammeter in the loop measures current.
+q223|2|reasoning|Which drawing mistake makes a diagram show an open circuit when the real circuit is closed?|Using a circle to show the bulb|Leaving a gap in the drawn wire|Drawing every wire as a straight line|Making the long line the plus side|B|A gap in the drawn loop shows an open circuit.
+q224|2|reasoning|Two students draw the same circuit with different colors and wire lengths. Both are correct because...|The symbols and links are what count|Colors change how the electricity flows|Longer wires change the meaning of symbols|Only the red wires are counted in it|A|What matters is the symbols and how they are joined.
+q301|3|recall|When a switch is closed, electricity...|Cannot flow at all|Flows through the circuit|Flows only backward|Stops at the switch|B|A closed switch completes the loop so electricity flows.
+q302|3|recall|When a switch is open, the circuit is...|Complete|Faster|Broken|Brighter|C|An open switch leaves a gap, so electricity cannot flow.
+q303|3|recall|A closed circuit has...|A gap in the wire|No battery|A dead bulb|A complete path|D|A closed circuit has a complete path with no gaps.
+q304|3|recall|An open circuit has...|A gap that stops flow|A complete loop of wire|Two batteries side by side|A brighter bulb than usual|A|The gap stops the flow.
+q305|3|recall|A bulb is glowing. The switch must be...|Open|Closed|Removed|Broken|B|A glowing bulb means a closed circuit.
+q306|3|recall|A bulb is off, and everything else is connected. The switch is probably...|Closed|Charged|Open|Parallel|C|An open switch is the likely reason.
+q307|3|recall|Opening a switch creates...|A gap in the loop|A second closed loop|A bigger battery|A brighter bulb|A|An open switch is a gap.
+q308|3|recall|Closing a switch...|Completes the loop|Cuts the wire|Removes the load|Drains the battery|A|Closing it completes the loop.
+q309|3|recall|A switch symbol with the lever touching both contacts is...|Open|Closed|Broken|Blocked|B|Touching contacts complete the path, so it is closed.
+q310|3|recall|A circuit switch is used to...|Measure the current in it|Make new energy for it|Control the electricity flow|Store the charge in it|C|A switch controls the flow of electricity.
+q311|3|application|A series circuit has a battery, a bulb, and a switch. You open the switch. The bulb...|Stays lit|Gets brighter|Goes out|Flickers|C|Opening the switch breaks the loop.
+q312|3|application|A series circuit has two bulbs and a closed switch. Both bulbs...|Light up|Stay dark|Explode|Light one at a time|A|The loop is complete, so both light.
+q313|3|application|A diagram shows a switch with a raised lever. In the real circuit the bulb is...|On|Brighter|Off|Hotter|C|A raised lever means open, so the bulb is off.
+q314|3|application|A bulb will not light. The wires look fine. What should you check first?|Whether the switch is open|Whether the bulb is old|Whether the table is metal|Whether the room is dark|A|An open switch is a common reason.
+q315|3|application|A student says, "The bulb is off, so the battery must be empty." What is a better first step?|Wait for ten more minutes to pass|Replace the battery with a new one|Buy a brand new bulb to try out|Check for a gap or an open switch|D|Check the loop before replacing anything.
+q316|3|application|In a parallel circuit, a switch on the main wire next to the battery controls...|Only the first branch|Only the battery|Every branch|Nothing|C|A switch on the main wire controls all branches.
+q317|3|application|Which action turns a working circuit OFF?|Closing the switch|Adding a wire|Opening the switch|Adding a battery|C|Opening the switch breaks the loop.
+q318|3|reasoning|Why does opening a switch anywhere in a series loop stop the whole circuit?|The only path is broken, so charge stops|The switch sends all the charge backward|Bulbs need the switch to hold their charge|Wires shrink whenever a switch is opened|A|Series has only one path, so any gap stops the flow everywhere.
+q319|3|reasoning|A switch is placed in ONE branch of a parallel circuit. When it opens...|Only that branch stops|The other branch stops too|The battery reverses|Both branches get brighter|A|Each branch is its own loop.
+q320|3|reasoning|Which placement lets one switch turn off BOTH bulbs of a parallel circuit?|In just one of the two branches|Beside the bulb in the top branch|On the shared wire by the battery|Next to an ammeter in one branch|C|Only the main wire is shared by both branches.
+q401|4|recall|In a series circuit, components are connected...|In separate branches|End to end in one path|Across common points|Without any wires|B|Series means one path with parts end to end.
+q402|4|recall|In a parallel circuit, components are connected...|End to end in one line|With no battery|Across common points|In a single path|C|Parallel components share common points and have multiple paths.
+q403|4|recall|How many paths does a series circuit have?|One|Two|Three|None|A|Series has a single path.
+q404|4|recall|A parallel circuit has...|One path only|Multiple paths|No paths|No switch|B|Parallel has multiple paths.
+q405|4|recall|In a series circuit, the same ___ flows through each component.|Voltage|Wire|Current|Switch|C|Series parts all carry the same current.
+q406|4|recall|In a parallel circuit, each branch receives the same...|Current|Voltage|Wire|Bulb|B|Each branch gets the same voltage.
+q407|4|recall|In a series circuit, if one component fails...|The rest keep working as before|The whole circuit stops working|Only the battery stops working|The bulbs all get much brighter|B|One break stops the only path.
+q408|4|recall|In a parallel circuit, if one component fails...|The other branches keep going|Every branch stops right away|The battery stops working too|All of the wires start to melt|A|Other branches still have their own path.
+q409|4|recall|Party lights that all go dark when one bulb burns out are wired in...|Parallel|Series|A closed switch|An open branch|B|One path, so one failure stops all.
+q410|4|recall|Home appliances can work independently because they are wired in...|Series|Parallel|A single loop|An open circuit|B|Each appliance has its own branch.
+q411|4|recall|A branch is a...|Separate path off the main wire|Special kind of small battery|Type of switch used in labs|Tool used for measuring current|A|Branches are separate paths in a parallel circuit.
+q412|4|recall|Which circuit has one path where all components are in a line?|Parallel|Series|Open|Broken|B|That is a series circuit.
+q413|4|recall|Which circuit has branches that can work independently?|Series|Open|Parallel|Broken|C|Parallel branches work independently.
+q414|4|application|Two bulbs are in series. You unscrew one. The other bulb...|Stays lit|Goes out|Gets brighter|Gets dimmer|B|The only path is broken.
+q415|4|application|Two bulbs are in parallel. You unscrew one. The other bulb...|Goes out|Explodes|Stays lit|Turns off later|C|Its branch is still complete.
+q416|4|application|Each of two bulbs has its own complete loop back to the battery. This is a...|Series circuit|Parallel circuit|Open circuit|Broken circuit|B|Separate loops mean parallel.
+q417|4|application|You want to turn one lamp off while the other stays on. Which wiring works?|Series with a switch by the battery|Series with no switch at all|Parallel, with a switch in each branch|Parallel, with one switch by the battery|C|A switch in a branch controls only that branch.
+q418|4|application|An ammeter reads 0.5 A just before a bulb in a series loop. It reads ___ just after the bulb.|0.5 A|0.25 A|0 A|1 A|A|Series current is the same everywhere.
+q419|4|application|Three bulbs are in series and one fails. How many still light?|0|1|2|3|A|The whole series circuit stops.
+q420|4|application|Three bulbs are in parallel and one fails. How many still light?|0|1|2|3|C|The other two branches still work.
+q421|4|application|A 3 V battery powers two bulbs in parallel. The voltage across each bulb is...|1.5 V|3 V|6 V|0 V|B|Each branch receives the same voltage as the source.
+q422|4|application|Which clue in a diagram shows a parallel circuit?|The wire splits into branches|All the bulbs sit in one line|There is only a single loop|The battery is drawn at the top|A|Branches mean multiple paths.
+q423|4|reasoning|Old party lights go dark when one bulb fails, but house lamps do not. Why?|Lights are in series; lamps are in parallel|Lights are in parallel; lamps are in series|Lamps use larger bulbs so they never fail|Party lights have no switch in the loop|A|A series break stops everything; parallel branches are independent.
+q424|4|reasoning|Why can a parallel circuit keep working when one branch is broken?|Every branch has its own path to the source|The battery grows stronger when that happens|The broken branch carries all the current|The other bulbs need no wires to work|A|Each branch has its own complete path.
+q501|5|recall|Current is measured in...|Volts|Amperes|Seconds|Meters|B|Current is measured in amperes (A).
+q502|5|recall|Voltage is measured in...|Amperes|Volts|Seconds|Meters|B|Voltage is measured in volts (V).
+q503|5|recall|Which letter stands for current?|V|G|I|M|C|On the board, I is current.
+q504|5|recall|Which instrument measures current?|Ammeter|Voltmeter|Switch|Battery|A|An ammeter measures current.
+q505|5|recall|Which instrument measures voltage?|Ammeter|Switch|Voltmeter|Bulb|C|A voltmeter measures potential difference.
+q506|5|recall|A galvanometer is used to detect a...|Very large voltage|Small amount of current|Broken or missing switch|Weak or empty battery cell|B|A galvanometer detects small currents.
+q507|5|recall|The letter inside the ammeter symbol is...|V|A|G|M|B|A stands for ammeter.
+q508|5|recall|The letter inside the galvanometer symbol is...|A|V|M|G|D|G stands for galvanometer.
+q509|5|recall|Another name for voltage is...|Potential difference|Speed of the electrons|The length of the wire|How open the switch is|A|Voltage is the potential difference.
+q510|5|recall|Potential difference is the energy transferred by each unit of...|Wire|Charge|Switch|Bulb|B|It is energy transferred per unit of charge.
+q511|5|recall|Electric current is the flow of ___ around a circuit.|Electrons|Bulbs|Switches|Symbols|A|Current is the flow of electrons (charge).
+q512|5|recall|The more electrons flowing per second, the greater the...|Voltage|Current|Wire|Load|B|More flow per second means more current.
+q513|5|recall|A voltmeter is connected...|In series with the whole loop|In parallel across the part|Only to the switch itself|Without connecting any wires|B|Voltmeters connect in parallel.
+q514|5|recall|An ammeter is placed...|Across the battery only|Inside the loop, in series|Outside the circuit|Across the bulb|B|An ammeter is connected in series.
+q515|5|recall|A voltmeter can be connected either side of a...|Cell or battery|Wire|Fuse|Galvanometer|A|Voltmeters go across a cell or battery.
+q516|5|application|To find how much current flows in a bulb loop, add a(n)...|Voltmeter across the bulb|Extra switch|Second battery|Ammeter in the loop|D|Use an ammeter in series.
+q517|5|application|To measure the voltage across a bulb, connect a voltmeter...|In the loop, in series|Across the bulb, in parallel|Only next to the switch|Far away from the bulb|B|Voltmeters connect in parallel.
+q518|5|application|You want to check if any tiny current flows in a wire. Which tool fits best?|Galvanometer|Voltmeter|Switch|Battery|A|A galvanometer detects small current.
+q519|5|application|A meter reads 1.5 V across a cell. Which meter was used?|Ammeter|Voltmeter|Switch|Fuse|B|Volts are measured with a voltmeter.
+q520|5|application|A meter shows 0.3 A. Which quantity is it giving you?|Voltage|Energy|Current|Charge|C|Amperes measure current.
+q521|5|application|A voltmeter is connected across a battery. What does it show?|The bulb's brightness|The battery's voltage|The switch position|The current in the wire|B|Voltmeters across a battery show its voltage.
+q522|5|application|Which pair is matched correctly?|Ammeter and volts|Voltmeter and amperes|Galvanometer and volts|Ammeter and amperes|D|Ammeters measure amperes.
+q523|5|application|You need both the current through a bulb and the voltage across it. Which setup works?|Ammeter in the loop, voltmeter across bulb|Two ammeters, both wired in parallel|Two voltmeters, both wired in series|One galvanometer across the battery|A|Ammeter in series; voltmeter in parallel.
+q524|5|reasoning|Why is a voltmeter connected across a part instead of inside the loop?|It compares two points, so it spans them|It needs its own separate battery|It would make the current larger|It only works when the switch is open|A|Voltage is a difference between two points, so it is measured across them.
+q525|5|reasoning|A series loop reads 2 A on an ammeter before the bulb. A student expects less after the bulb. What is wrong?|Current stays equal all the way round|The bulb adds extra current to the loop|Ammeters only work before a bulb|Current is used up by the bulb itself|A|In a series circuit the same current flows everywhere.
