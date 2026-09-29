@@ -114,7 +114,7 @@ let G={},P=[],A=[],Q=[],me=JSON.parse(localStorage.me||'null');
 let cdEnd=0,cdN=0,otRound=-1,streak=0,sr=-1,localEnd=0,seq=-1,used=new Set(),cur=null,locked=false,qEnd=0,lastKey='',prevHide=false,on=0,ended=-1,pr=-1;
 const rem=()=>G.paused?G.dur:Math.max(0,Math.round((localEnd-Date.now())/1000));
 const fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
-const setG=p=>SB.from('game').update(p).eq('code',code);
+const setG=async p=>{const{error}=await SB.from('game').update(p).eq('code',code);if(error){console.error(error);alert('Database error: '+error.message)}};
 const stat=t=>{const a=A.filter(x=>x.round===G.round&&x.team===t);return{att:a.length,ok:a.filter(x=>x.ok).length}};
 const tot=()=>A.filter(a=>a.round===G.round&&a.ok).length;
 const TN=()=>T.slice(0,G.teams||4);
@@ -253,7 +253,7 @@ function pick(k){
   if(locked)return;locked=true;used.add(cur.id);if(sr!==G.round){sr=G.round;streak=0}
   const ok=k===cur.ans,cap=G.mode==='captain',o=phase()==='ot',wait=ok?(o?300:1000):(o?5000:3000);
   document.querySelectorAll('.opts button').forEach(b=>{const v=+b.dataset.k;b.disabled=true;if(v===cur.ans)b.classList.add('ok');else if(v===k)b.classList.add('no')});
-  SB.from('answers').insert({code,player:me.id,team:P.find(p=>p.id===me.id).team,round:G.round,qid:cur.id,ok});
+  SB.from('answers').insert({code,player:me.id,team:P.find(p=>p.id===me.id).team,round:G.round,qid:cur.id,ok}).then(x=>{if(x.error)console.error(x.error)});
   if(ok){streak++;L.play(streak>20?'combo16p':'combo'+Math.min(streak,16));const f=document.createElement('div');f.className='fl';f.textContent='+1';document.body.append(f);setTimeout(()=>f.remove(),1000);$('#sc')?.classList.add('bump')}
   else{streak=0;L.play('wound');navigator.vibrate?.(200)}
   const w=cap&&!o?Math.max(4500,wait):wait;
@@ -360,7 +360,7 @@ function teacher(){
   $('#bs').onclick=()=>{B={s:Date.now(),d:{},p:{}};saveB();renderBuild()};
   $('#bx').onclick=()=>{B={s:0,d:{},p:{}};saveB();renderBuild()};
   $('#bd').onclick=bclick;renderBuild();
-  $('#nop').onclick=()=>SB.from('players').insert({code,name:'(no phone)',phone:false});
+  $('#nop').onclick=async()=>{const{error}=await SB.from('players').insert({code,name:'(no phone)',phone:false});if(error)alert('Database error: '+error.message)};
   document.querySelectorAll('.ev').forEach(b=>b.onclick=()=>setG({event:b.dataset.e,round:(G.round||0)+1,dur:+b.dataset.d,seq:(G.seq||0)+1,paused:false}));
   $('#ps').onclick=()=>G.paused?setG({paused:false,seq:G.seq+1}):setG({paused:true,dur:rem(),seq:G.seq+1});
   document.querySelectorAll('.pre').forEach(b=>b.onclick=()=>setG(b.dataset.p==='a'
