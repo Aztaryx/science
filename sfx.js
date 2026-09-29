@@ -5,7 +5,7 @@ import { SFX_DATA } from './sfx-data.js';
 export async function fetchWithProgress(url, cb = () => {}) {
   cb('wait');
   const r = await fetch(url);
-  if (!r.ok) throw new Error(`fetch failed (${r.status}) ${url}`);
+  if (!r.ok) throw new Error(fetch failed (${r.status}) ${url});
   const total = +r.headers.get('content-length') || 0;
   if (!r.body || !r.body.getReader) return r.arrayBuffer();
   const rd = r.body.getReader(), parts = [];
@@ -49,7 +49,7 @@ export const SFX = (() => {
     const e = cache[name] || (cache[name] = {});
     if (e.p) return e.p;
     const sprite = SFX_DATA[name];
-    if (!sprite) return Promise.reject(new Error(`SFX: no sprite "${name}"`));
+    if (!sprite) return Promise.reject(new Error(SFX: no sprite "${name}"));
     const c = ensure();
     e.p = fetchWithProgress(pick(sprite).url, cb)
       .then(b => { if (cb) cb('dec'); return c.decodeAudioData(b); })
@@ -59,9 +59,9 @@ export const SFX = (() => {
 
   function find(name, sp) {
     const names = sp ? [sp] : Object.keys(SFX_DATA).filter(s => SFX_DATA[s].sounds[name]);
-    if (names.length > 1) throw new Error(`SFX: "${name}" is in several sprites (${names.join(', ')}), pass { sprite }`);
+    if (names.length > 1) throw new Error(SFX: "${name}" is in several sprites (${names.join(', ')}), pass { sprite });
     const def = names.length && SFX_DATA[names[0]] && SFX_DATA[names[0]].sounds[name];
-    if (!def) throw new Error(`SFX: no sound "${name}"`);
+    if (!def) throw new Error(SFX: no sound "${name}");
     return { sp: names[0], def };
   }
 
@@ -95,4 +95,4 @@ export const SFX = (() => {
         .map(([name, d]) => ({ name, sprite: sp, duration: +(d.end - d.start).toFixed(3) })));
     }
   };
-})();
+})()
