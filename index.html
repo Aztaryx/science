@@ -288,7 +288,7 @@ function liveS(r){
       const{tm:tl,pl}=standings(),k=pl.findIndex(x=>x.p.id===me.id);
       h=(G.mode==='solo'
         ?`<div class="rw"><b>You are #${k+1}</b><span>${pl[k]?pl[k].ok:0}</span></div>`+pl.slice(0,3).map((x,j)=>`<div class="rw"><span>${j+1}. ${esc(x.p.name)}</span><span>${x.ok}</span></div>`).join('')
-        :[...tl].sort((a,b)=>stat(b.i).ok-stat(a.i).ok).map((x,j)=>`<div class="rw" style="border-left:8px solid ${x.t[1]};${x.i===tm?'font-weight:800':''}"><span>${j+1}. ${x.t[2]} ${x.t[0]}</span><span>${stat(x.i).ok}</span></div>`).join(''));
+        🙁...tl].sort((a,b)=>stat(b.i).ok-stat(a.i).ok).map((x,j)=>`<div class="rw" style="border-left:8px solid ${x.t[1]};${x.i===tm?'font-weight:800':''}"><span>${j+1}. ${x.t[2]} ${x.t[0]}</span><span>${stat(x.i).ok}</span></div>`).join(''));
     }
     if(ov.dataset.h!==h){ov.dataset.h=h;ov.innerHTML=h}
   }
