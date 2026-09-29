@@ -100,12 +100,18 @@ body.ot #vg{animation:siren 1s ease-in-out infinite}
 <div id="ld"><div class="pb"><i id="pf"></i></div><p id="lt">Starting…</p>
 <div id="ll"><div class="lr" data-s="active"><i class="ic"></i><b>Scripts</b><span>Downloading game code…</span><em><u></u></em></div></div>
 <button class="pri" id="st" hidden style="max-width:420px;margin:auto">Tap to start</button></div>
-<script>setTimeout(function(){var r=document.querySelector('#ll .lr');if(r&&r.dataset.s==='active')r.querySelector('span').textContent='Still waiting on the server…'},4000)</script>
+<script>
+(function(){var r=document.querySelector('#ll .lr');
+function fail(m){if(r.dataset.s==='active'){r.dataset.s='fail';r.querySelector('span').textContent=m}}
+window.addEventListener('error',function(e){fail('Script error: '+(e.message||'failed to load')+' (check sfx.js and sfx-data.js are the latest uploads)')});
+window.addEventListener('unhandledrejection',function(e){fail('Script error: '+(e.reason&&e.reason.message||e.reason))});
+setTimeout(function(){if(r.dataset.s==='active')r.querySelector('span').textContent='Still waiting. Blocked network or missing sfx.js / sfx-data.js?'},4000)})();
+</script>
 <button id="mu" hidden>🔊</button>
 <div id="app"></div>
 <script type="module" onerror="var q=document.querySelector('#ll .lr');q.dataset.s='fail';q.querySelector('span').textContent='Could not load. Check sfx.js and sfx-data.js are uploaded.'">
 import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import {SFX as L,fetchWithProgress} from './sfx.js';
+import {SFX as L} from './sfx.js';
 const SB=createClient('https://swymzdiqibfdsnfbtuwu.supabase.co','sb_publishable_TUm_TQONhqUtWso-AJz-VA_D-gTOgDC');
 const T=[['Purple','#a61bff','▲'],['Red','#e03c3a','●'],['Mint','#2ee8ac','■'],['Lime','#d1e035','◆'],['Orange','#ff9a3a','★'],['Blue','#5aa8ff','✚'],['Pink','#ff7ac8','▼']];
 const $=s=>document.querySelector(s), app=$('#app'), view=location.hash.slice(1), UP=new URLSearchParams(location.search).get('c');
@@ -399,6 +405,13 @@ function resHTML(){
 function liveT(){const rs=$('#rs'),sig=A.length+'|'+G.round+'|'+P.length;if(rs&&rs.dataset.s!==sig){rs.dataset.s=sig;rs.innerHTML=resHTML()}const b=$('#bt');if(b)b.textContent=B.s?fmt(bel()):'';const i=$('#info'),ph=phase();if(i)i.textContent=`${P.length} joined, ${G.event} ${ph==='ot'?'OVERTIME gap '+gap():fmt(rem())}, ${tot()} correct (goal ${G.objective})`}
 
 /* ---------- start ---------- */
+async function fetchWithProgress(url,cb){
+  cb('wait');const r=await fetch(url);if(!r.ok)throw new Error('fetch failed '+r.status);
+  const total=+r.headers.get('content-length')||0;if(!r.body||!r.body.getReader)return r.arrayBuffer();
+  const rd=r.body.getReader(),parts=[];let n=0;
+  for(;;){const{done,value}=await rd.read();if(done)break;parts.push(value);n+=value.length;cb('get',n,total)}
+  const out=new Uint8Array(n);let o=0;for(const p of parts){out.set(p,o);o+=p.length}return out.buffer;
+}
 const LR={},mb=n=>(n/1048576).toFixed(1)+' MB';
 function row(k,label){const d=document.createElement('div');d.className='lr';d.dataset.s='wait';d.innerHTML=`<i class="ic"></i><b>${label}</b><span>Waiting</span><em><u></u></em>`;$('#ll').append(d);LR[k]={d,f:0,l:label}}
 function ls(k,s,t,f){
